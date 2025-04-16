@@ -12,13 +12,13 @@ doc = Nokogiri::HTML5(URI.open('./files/van-gogh-paintings.html'))
 
 artworks = []
 doc.css("img[src*='gif']:not([alt=''])").each do |img|
-	if img.parent["href"] # check if img has parent with link
+	if img.parent.children.size == 2 and img.parent["href"] # check if img has parent with link and contains extension div
 	
 		name = img["alt"]
 		link = "https://www.google.com/" + img.parent["href"]
 		extension = img.next.children[1].content
 		
-		if img.parent.children.size == 2 and img["id"] 
+		if img["id"] 
 			id = img["id"]
 			image = ""
 			
@@ -28,7 +28,7 @@ doc.css("img[src*='gif']:not([alt=''])").each do |img|
 				end
 			end
 					
-		elsif img.parent.children.size == 2 and not img["id"]
+		elsif not img["id"]
 			image = img["data-src"]
 		end
 		
